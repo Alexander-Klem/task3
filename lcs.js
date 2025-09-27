@@ -16,6 +16,10 @@ const lcm = (a, b) => {
   const x = +(url.searchParams.get('x'));
   const y = +(url.searchParams.get('y'));
 
+  if (url.pathname !== `/app/${email}`) {
+      return res.end("NaN"); 
+  }
+    
   if (!Number.isInteger(x) || !Number.isInteger(y) || x <= 0 || y <= 0 || x > 1e9 || y > 1e9) { 
     return res.end('NaN')
   }
