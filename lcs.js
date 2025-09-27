@@ -16,18 +16,17 @@ const lcm = (a, b) => {
   const x = +(url.searchParams.get('x'));
   const y = +(url.searchParams.get('y'));
 
-  if (url.pathname !== `/app/${email}`  && url.pathname !== `/app/${email}/`) {
+  if (url.pathname !== `/app/${email}`) {
       return res.end("NaN"); 
   }
     
-    // || x > 1e9 || y > 1e9
-  if (!Number.isInteger(x) || !Number.isInteger(y) || x <= 0 || y <= 0 ) { 
+  if (!Number.isInteger(x) || !Number.isInteger(y) || x <= 0 || y <= 0 || x > 1e9 || y > 1e9) { 
     return res.end('NaN')
   }
 
 
   res.end((lcm(x,y).toString()));
-}).listen(PORT, '0.0.0.0', () => { 
+}).listen(PORT, () => { 
   console.log(`http://localhost:${PORT}/app/${email}?x={}&y={}`);
 });
 
