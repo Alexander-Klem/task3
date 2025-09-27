@@ -1,7 +1,7 @@
 import http from 'node:http';
 
 const email = 'alexander_klemyato_gmail_com';
-const PORT = 3500;
+const PORT = process.env.PORT || 3500;
 
 const gcd = (a, b) => { 
   return b === 0 ? a : gcd(b, a % b); 
