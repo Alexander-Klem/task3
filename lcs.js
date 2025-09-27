@@ -4,7 +4,7 @@ const email = 'alexander_klemyato_gmail_com';
 const PORT = process.env.PORT || 4000 ;
 
 const gcd = (a, b) => { 
-  return b === 0 ? a : gcd(b, a % b); 
+  return b === 0n ? a : gcd(b, a % b); 
 }
 
 const lcm = (a, b) => { 
@@ -12,20 +12,33 @@ const lcm = (a, b) => {
 }
 
   http.createServer((req, res) => {
-  const url = new URL(req.url, `http://${req.headers.host}`);
-  const x = +(url.searchParams.get('x'));
-  const y = +(url.searchParams.get('y'));
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const x = url.searchParams.get('x');
+    const y = url.searchParams.get('y');
+
 
   if (url.pathname !== `/app/${email}`) {
       return res.end("NaN"); 
   }
     
-  if (!Number.isInteger(x) || !Number.isInteger(y) || x <= 0 || y <= 0 || x > 1e9 || y > 1e9) { 
-    return res.end('NaN')
-  }
+    try {
+      if (!x || !y) throw new Error();
+
+      const resX = BigInt(x);
+      const resY = BigInt(y);
 
 
-  res.end((lcm(x,y).toString()));
+      if (resX <= 0n || resY <= 0n) throw new Error();
+      
+      res.end((lcm(resX,resY).toString()));
+    } catch  {
+      res.end('NaN');
+    }
+    
+  
+
+
+  
 }).listen(PORT, () => { 
   console.log(`http://localhost:${PORT}/app/${email}?x={}&y={}`);
 });
